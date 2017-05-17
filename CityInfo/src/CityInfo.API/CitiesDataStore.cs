@@ -17,19 +17,58 @@ namespace CityInfo.API
                 {
                     Id =1,
                     Name = "New York City",
-                    Description = "The Big Apple"
+                    Description = "The Big Apple",
+                    PointsOfInterest = new List<PointOfIntrestDto>
+                    {
+                        new PointOfIntrestDto
+                        {
+                            Id = 1,
+                            Name = "Central Park",
+                            Description = "Big park"
+                        },
+                        new PointOfIntrestDto
+                        {
+                            Id = 2,
+                            Name = "Empire state building",
+                            Description = "Big builing"
+                        }
+                    }
                 },
                 new CityDto
                 {
                     Id = 2,
                     Name = "Antwerp",
-                    Description = "Diamonds and so on"
+                    Description = "Diamonds and so on",
+                    PointsOfInterest = new List<PointOfIntrestDto>
+                    {
+                        new PointOfIntrestDto
+                        {
+                            Id = 3,
+                            Name = "Cathedral",
+                            Description = "Never ending story."
+                        }
+                    }
                 },
                 new CityDto
                 {
                     Id = 3,
                     Name = "Wroclaw",
-                    Description = "Germans call it Breslau"
+                    Description = "Germans call it Breslau",
+                    PointsOfInterest = new List<PointOfIntrestDto>
+                    {
+                        new PointOfIntrestDto
+                        {
+                            Id = 4,
+                            Name = "Ostrow Tumski",
+                            Description = "An island with tons of churches"
+                        },
+                        new PointOfIntrestDto
+                        {
+                            Id = 5,
+                            Name = "Hydropolis",
+                            Description = "Knowledge center about water"
+                        }
+                    }
                 }
             };
         }
