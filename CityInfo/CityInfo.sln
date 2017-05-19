@@ -1,16 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6F537AB1-9E78-48D2-8543-8223C0E3913A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{78634511-D3F9-479D-BAE3-67EB18CD0CFA}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CityInfo.API", "src\CityInfo.API\CityInfo.API.xproj", "{95E24E3C-E2E9-4F80-9679-8621B0092511}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CityInfo.API", "src\CityInfo.API\CityInfo.API.csproj", "{95E24E3C-E2E9-4F80-9679-8621B0092511}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
