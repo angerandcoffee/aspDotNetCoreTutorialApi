@@ -105,5 +105,59 @@ namespace CityInfo.API.Controllers
 
             return NoContent();
         }
+
+        [HttpPatch("{cityId}/pointsofinterest/{poiId}")]
+        public IActionResult PratiallyUpdatePointOfIntrest(int cityId, int poiId,
+            [FromBody] JsonPatchDocument<PointOfIntrestDtoForUpdate> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                return BadRequest();
+            }
+
+            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            if (city == null)
+            {
+                return NotFound();
+            }
+
+            var pointOfIntrestFromStore = city.PointsOfInterest.FirstOrDefault(poi => poi.Id == poiId);
+            if (pointOfIntrestFromStore == null)
+            {
+                return NotFound();
+            }
+
+            var pointOfIntrestToPatch = new PointOfIntrestDtoForUpdate
+            {
+                Name = pointOfIntrestFromStore.Name,
+                Description = pointOfIntrestFromStore.Description
+            };
+
+            patchDoc.ApplyTo(pointOfIntrestToPatch, ModelState);
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (pointOfIntrestToPatch.Description == pointOfIntrestToPatch.Name)
+            {
+                ModelState.AddModelError("Description", "Description shoud be diffrent than name.");
+            }
+
+            TryValidateModel(pointOfIntrestToPatch);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            pointOfIntrestFromStore.Name = pointOfIntrestToPatch.Name;
+            pointOfIntrestFromStore.Description = pointOfIntrestToPatch.Description;
+
+            return NoContent();
+        }
+
+
     }
 }
