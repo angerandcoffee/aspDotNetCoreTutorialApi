@@ -36,7 +36,7 @@ namespace CityInfo.API.Controllers
             catch (Exception ex)
             {
                 _logger.LogCritical($"There was an error by getting point of intrest with id {cityId}", ex);
-                return StatusCode(500);
+                return StatusCode(500, "A problem has happend while handling your request.");
             }
         }
         [HttpGet("{cityId}/pointsofinterest/{poiId}", Name = "GetPointOfIntrest")]
