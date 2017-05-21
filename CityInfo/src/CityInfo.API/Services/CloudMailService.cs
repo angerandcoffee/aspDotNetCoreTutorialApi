@@ -3,9 +3,9 @@
 namespace CityInfo.API.Services
 {
     public class CloudMailService : IMailService
-    {       
-        private string _mailTo = "admin@dummycompany.doh";
-        private string _mailFrom = "noreplay@dummycompany.doh";
+    {
+        private string _mailTo = Startup.Configuration["mailSettings:mailToAddress"];
+        private string _mailFrom = Startup.Configuration["mailSettings:mailFromAddress"];
 
         public void Send(string subject, string message)
         {
