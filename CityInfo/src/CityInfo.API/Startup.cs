@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 
+using CityInfo.API.Services;
+
 namespace CityInfo.API
 {
     public class Startup
@@ -15,6 +17,11 @@ namespace CityInfo.API
         {
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()));
+#if DEBUG
+            services.AddTransient<IMailService, LocalMailService>();
+#else
+            services.AddTransient<IMailService, CloudMailService>();
+#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
