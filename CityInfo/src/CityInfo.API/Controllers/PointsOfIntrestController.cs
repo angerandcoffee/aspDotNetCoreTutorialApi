@@ -58,7 +58,7 @@ namespace CityInfo.API.Controllers
         }
         [HttpPost("{cityId}/pointsofinterest")]
         public IActionResult CreatePointOfIntrest(int cityId,
-            [FromBody] PointOfIntrestDtoForCreation pointOfIntrest)
+            [FromBody] PointOfInterestDtoForCreation pointOfIntrest)
         {
             if (pointOfIntrest == null)
             {
@@ -75,7 +75,7 @@ namespace CityInfo.API.Controllers
             int maxPointOfIntrest = CitiesDataStore.Current.Cities
                 .SelectMany(c => c.PointsOfInterest).Max(p => p.Id);
 
-            PointOfIntrestDto poi = new PointOfIntrestDto
+            PointOfInterestDto poi = new PointOfInterestDto
             {
                 Id = ++maxPointOfIntrest,
                 Name = pointOfIntrest.Name,
@@ -89,7 +89,7 @@ namespace CityInfo.API.Controllers
 
         [HttpPut("{cityId}/pointsofinterest/{poiId}")]
         public IActionResult UpdatePointOfIntrest(int cityId, int poiId,
-             [FromBody] PointOfIntrestDtoForUpdate pointOfIntrest)
+             [FromBody] PointOfInterestDtoForUpdate pointOfIntrest)
         {
             if (pointOfIntrest == null)
             {
@@ -126,7 +126,7 @@ namespace CityInfo.API.Controllers
 
         [HttpPatch("{cityId}/pointsofinterest/{poiId}")]
         public IActionResult PratiallyUpdatePointOfIntrest(int cityId, int poiId,
-            [FromBody] JsonPatchDocument<PointOfIntrestDtoForUpdate> patchDoc)
+            [FromBody] JsonPatchDocument<PointOfInterestDtoForUpdate> patchDoc)
         {
             if (patchDoc == null)
             {
@@ -145,7 +145,7 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
 
-            var pointOfIntrestToPatch = new PointOfIntrestDtoForUpdate
+            var pointOfIntrestToPatch = new PointOfInterestDtoForUpdate
             {
                 Name = pointOfIntrestFromStore.Name,
                 Description = pointOfIntrestFromStore.Description

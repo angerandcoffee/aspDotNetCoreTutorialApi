@@ -18,15 +18,15 @@ namespace CityInfo.API
                     Id =1,
                     Name = "New York City",
                     Description = "The Big Apple",
-                    PointsOfInterest = new List<PointOfIntrestDto>
+                    PointsOfInterest = new List<PointOfInterestDto>
                     {
-                        new PointOfIntrestDto
+                        new PointOfInterestDto
                         {
                             Id = 1,
                             Name = "Central Park",
                             Description = "Big park"
                         },
-                        new PointOfIntrestDto
+                        new PointOfInterestDto
                         {
                             Id = 2,
                             Name = "Empire state building",
@@ -39,9 +39,9 @@ namespace CityInfo.API
                     Id = 2,
                     Name = "Antwerp",
                     Description = "Diamonds and so on",
-                    PointsOfInterest = new List<PointOfIntrestDto>
+                    PointsOfInterest = new List<PointOfInterestDto>
                     {
-                        new PointOfIntrestDto
+                        new PointOfInterestDto
                         {
                             Id = 3,
                             Name = "Cathedral",
@@ -54,15 +54,15 @@ namespace CityInfo.API
                     Id = 3,
                     Name = "Wroclaw",
                     Description = "Germans call it Breslau",
-                    PointsOfInterest = new List<PointOfIntrestDto>
+                    PointsOfInterest = new List<PointOfInterestDto>
                     {
-                        new PointOfIntrestDto
+                        new PointOfInterestDto
                         {
                             Id = 4,
                             Name = "Ostrow Tumski",
                             Description = "An island with tons of churches"
                         },
-                        new PointOfIntrestDto
+                        new PointOfInterestDto
                         {
                             Id = 5,
                             Name = "Hydropolis",
