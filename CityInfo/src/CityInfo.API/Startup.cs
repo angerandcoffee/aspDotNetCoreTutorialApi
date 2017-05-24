@@ -9,6 +9,7 @@ using NLog.Extensions.Logging;
 
 using CityInfo.API.Services;
 using CityInfo.API.Entities;
+using CityInfo.API.Models;
 
 namespace CityInfo.API
 {
@@ -64,6 +65,13 @@ namespace CityInfo.API
             app.UseMvc();
 
             cityInfoContext.EnsureSeedDataForContext();
+
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<City, CityWithoutPointOfInterestDto>();
+                cfg.CreateMap<City, CityWithPointOfInterestDto>();
+                cfg.CreateMap<PointOfInterest, PointOfInterestDto>();
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using CityInfo.API.Models;
 using CityInfo.API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -23,17 +24,7 @@ namespace CityInfo.API.Controllers
         {
             var cityEntities = _cityInfoRepository.GetCities();
 
-            var result = new List<CityWithoutPointOfInterestDto>();
-
-            foreach (var city in cityEntities)
-            {
-                result.Add(new CityWithoutPointOfInterestDto
-                {
-                    Id = city.Id,
-                    Name = city.Name,
-                    Description = city.Description
-                });
-            }
+            var result = Mapper.Map<IEnumerable<CityWithoutPointOfInterestDto>>(cityEntities);
 
             return Ok(result);
         }
@@ -50,31 +41,11 @@ namespace CityInfo.API.Controllers
 
             if (includePointOfInterest)
             {
-                var cityResult = new CityWithPointOfInterestDto
-                {
-                    Id = city.Id,
-                    Name = city.Name,
-                    Description = city.Description
-                };
-
-                foreach (var poi in city.PointsOfInterest)
-                {
-                    cityResult.PointsOfInterest.Add(new PointOfInterestDto
-                    {
-                        Id = poi.Id,
-                        Name = poi.Name,
-                        Description = poi.Description
-                    });
-                }
+                var cityResult = Mapper.Map<CityWithPointOfInterestDto>(city);
                 return Ok(cityResult);
             }
 
-            var cityResultWithoutPointsOfInterest = new CityWithoutPointOfInterestDto
-            {
-                Id = city.Id,
-                Name = city.Name,
-                Description = city.Description
-            };
+            var cityResultWithoutPointsOfInterest = Mapper.Map<CityWithoutPointOfInterestDto>(city);
 
             return Ok(cityResultWithoutPointsOfInterest);
         }

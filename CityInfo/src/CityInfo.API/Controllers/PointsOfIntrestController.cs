@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 
 namespace CityInfo.API.Controllers
 {
@@ -35,17 +36,7 @@ namespace CityInfo.API.Controllers
                 }
 
                 var pointOfInterestEntities = _cityInfoRepository.GetPointOfInterestsForCity(cityId);
-                var result = new List<PointOfInterestDto>();
-
-                foreach (var poi in pointOfInterestEntities)
-                {
-                    result.Add(new PointOfInterestDto
-                    {
-                        Id = poi.Id,
-                        Name = poi.Name,
-                        Description = poi.Description
-                    });
-                }
+                var result = Mapper.Map<IEnumerable<PointOfInterestDto>>(pointOfInterestEntities);
 
                 return Ok(result);
             }
@@ -70,12 +61,7 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
 
-            var result = new PointOfInterestDto
-            {
-                Id = pointOfInterest.Id,
-                Name = pointOfInterest.Name,
-                Description = pointOfInterest.Description
-            };
+            var result = Mapper.Map<PointOfInterestDto>(pointOfInterest);
 
             return Ok(result);
         }
