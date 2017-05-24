@@ -80,11 +80,19 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
 
-            PointOfInterest poi = Mapper.Map<PointOfInterest>(pointOfIntrest);
+            var poi = Mapper.Map<PointOfInterest>(pointOfIntrest);
 
-           
+            _cityInfoRepository.AddPointOfInterestForCity(cityId, poi);
 
-            return CreatedAtRoute("GetPointOfIntrest", new { cityId = cityId, poiId = poi.Id }, poi);
+            if (!_cityInfoRepository.Save())
+            {
+                return StatusCode(500, "A problem happend while handling your request.");
+            }
+
+            var createdPointOfInterestToReturn = Mapper.Map<PointOfInterestDto>(poi);
+
+            return CreatedAtRoute("GetPointOfIntrest", new { cityId = cityId, poiId = createdPointOfInterestToReturn.Id }, 
+                createdPointOfInterestToReturn);
         }
 
         [HttpPut("{cityId}/pointsofinterest/{poiId}")]

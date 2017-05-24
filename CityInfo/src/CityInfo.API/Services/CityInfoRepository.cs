@@ -49,7 +49,14 @@ namespace CityInfo.API.Services
 
         public void AddPointOfInterestForCity(int cityId, PointOfInterest pointOfInterest)
         {
-            throw new NotImplementedException();
+            var city = GetCity(cityId, false);
+            city.PointsOfInterest.Add(pointOfInterest);
+
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
         }
     }
 }
