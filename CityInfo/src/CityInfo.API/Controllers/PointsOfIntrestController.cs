@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using CityInfo.API.Entities;
 
 namespace CityInfo.API.Controllers
 {
@@ -74,24 +75,14 @@ namespace CityInfo.API.Controllers
                 return BadRequest();
             }
 
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
-            if (city == null)
+            if (!_cityInfoRepository.CityExists(cityId))
             {
                 return NotFound();
             }
 
-            //to be improved
-            int maxPointOfIntrest = CitiesDataStore.Current.Cities
-                .SelectMany(c => c.PointsOfInterest).Max(p => p.Id);
+            PointOfInterest poi = Mapper.Map<PointOfInterest>(pointOfIntrest);
 
-            PointOfInterestDto poi = new PointOfInterestDto
-            {
-                Id = ++maxPointOfIntrest,
-                Name = pointOfIntrest.Name,
-                Description = pointOfIntrest.Name
-            };
-
-            city.PointsOfInterest.Add(poi);
+           
 
             return CreatedAtRoute("GetPointOfIntrest", new { cityId = cityId, poiId = poi.Id }, poi);
         }

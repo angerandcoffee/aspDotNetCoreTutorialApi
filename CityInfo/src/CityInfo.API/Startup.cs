@@ -71,6 +71,7 @@ namespace CityInfo.API
                 cfg.CreateMap<City, CityWithoutPointOfInterestDto>();
                 cfg.CreateMap<City, CityWithPointOfInterestDto>();
                 cfg.CreateMap<PointOfInterest, PointOfInterestDto>();
+                cfg.CreateMap<PointOfInterestDtoForCreation, PointOfInterest>();
             });
         }
     }
