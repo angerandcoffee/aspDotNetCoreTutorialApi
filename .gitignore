@@ -3,3 +3,4 @@ CityInfo/.vs/*
 CityInfo/src/CityInfo.API/obj/*
 CityInfo/.vs
 CityInfo/Backup/
+*.log
