@@ -33,13 +33,18 @@ namespace CityInfo.API.Services
 
         public IEnumerable<PointOfInterest> GetPointOfInterestsForCity(int cityId)
         {
-            return _context.Cities.FirstOrDefault(c => c.Id == cityId).PointsOfInterest.ToList();
+            return _context.Cities.Include(c => c.PointsOfInterest).FirstOrDefault(c => c.Id == cityId).PointsOfInterest.ToList();
         }
 
         public PointOfInterest GetPointOfInterestForCity(int cityId, int pointOfInterestId)
         {
-            return _context.Cities.FirstOrDefault(c => c.Id == cityId)
+            return _context.Cities.Include(c => c.PointsOfInterest).FirstOrDefault(c => c.Id == cityId)
                 .PointsOfInterest.FirstOrDefault(p => p.Id == pointOfInterestId);
+        }
+
+        public bool CityExists(int cityId)
+        {
+            return _context.Cities.Any(c => c.Id == cityId);
         }
     }
 }
