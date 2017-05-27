@@ -32,7 +32,7 @@ namespace CityInfo.API.Controllers
             {
                 if (!_cityInfoRepository.CityExists(cityId))
                 {
-                    _logger.LogInformation($"City with id {cityId} dosent exist.");
+                    _logger.LogInformation($"City with id {cityId} doesn't exist.");
                     return NotFound();
                 }
 
@@ -43,8 +43,8 @@ namespace CityInfo.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogCritical($"There was an error by getting point of intrest with id {cityId}", ex);
-                return StatusCode(500, "A problem has happend while handling your request.");
+                _logger.LogCritical($"There was an error by getting point of interest with id {cityId}", ex);
+                return StatusCode(500, "A problem has happened while handling your request.");
             }
         }
         [HttpGet("{cityId}/pointsofinterest/{poiId}", Name = "GetPointOfIntrest")]
@@ -86,7 +86,7 @@ namespace CityInfo.API.Controllers
 
             if (!_cityInfoRepository.Save())
             {
-                return StatusCode(500, "A problem happend while handling your request.");
+                return StatusCode(500, "A problem happened while handling your request.");
             }
 
             var createdPointOfInterestToReturn = Mapper.Map<PointOfInterestDto>(poi);
@@ -106,7 +106,7 @@ namespace CityInfo.API.Controllers
 
             if (pointOfIntrest.Description == pointOfIntrest.Name)
             {
-                ModelState.AddModelError("Description", "Description shoud be diffrent than name.");
+                ModelState.AddModelError("Description", "Description should be different than name.");
             }
 
             if (!ModelState.IsValid)
@@ -114,20 +114,23 @@ namespace CityInfo.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
-            if (city == null)
+            if (!_cityInfoRepository.CityExists(cityId))
             {
                 return NotFound();
             }
 
-            var pointOfIntrestToBeUpdated = city.PointsOfInterest.FirstOrDefault(poi => poi.Id == poiId);
-            if (pointOfIntrestToBeUpdated == null)
+            var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestForCity(cityId, poiId);
+            if (pointOfInterestEntity == null)
             {
                 return NotFound();
             }
 
-            pointOfIntrestToBeUpdated.Name = pointOfIntrest.Name;
-            pointOfIntrestToBeUpdated.Description = pointOfIntrest.Description;
+            Mapper.Map(pointOfIntrest, pointOfInterestEntity);
+            
+            if (!_cityInfoRepository.Save())
+            {
+                return StatusCode(500, "A problem happened while handling your request.");
+            }
 
             return NoContent();
         }
@@ -141,45 +144,44 @@ namespace CityInfo.API.Controllers
                 return BadRequest();
             }
 
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
-            if (city == null)
+            if (!_cityInfoRepository.CityExists(cityId))
             {
                 return NotFound();
             }
 
-            var pointOfIntrestFromStore = city.PointsOfInterest.FirstOrDefault(poi => poi.Id == poiId);
-            if (pointOfIntrestFromStore == null)
+            var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestForCity(cityId, poiId);
+            if (pointOfInterestEntity == null)
             {
                 return NotFound();
             }
+            ;
+            var pointOfInterestToPatch = Mapper.Map<PointOfInterestDtoForUpdate>(pointOfInterestEntity);
 
-            var pointOfIntrestToPatch = new PointOfInterestDtoForUpdate
-            {
-                Name = pointOfIntrestFromStore.Name,
-                Description = pointOfIntrestFromStore.Description
-            };
-
-            patchDoc.ApplyTo(pointOfIntrestToPatch, ModelState);
+            patchDoc.ApplyTo(pointOfInterestToPatch, ModelState);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (pointOfIntrestToPatch.Description == pointOfIntrestToPatch.Name)
+            if (pointOfInterestToPatch.Description == pointOfInterestToPatch.Name)
             {
-                ModelState.AddModelError("Description", "Description shoud be diffrent than name.");
+                ModelState.AddModelError("Description", "Description should be different than name.");
             }
 
-            TryValidateModel(pointOfIntrestToPatch);
+            TryValidateModel(pointOfInterestToPatch);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            pointOfIntrestFromStore.Name = pointOfIntrestToPatch.Name;
-            pointOfIntrestFromStore.Description = pointOfIntrestToPatch.Description;
+            Mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
+
+            if (!_cityInfoRepository.Save())
+            {
+                return StatusCode(500, "A problem happened while handling your request.");
+            }
 
             return NoContent();
         }
